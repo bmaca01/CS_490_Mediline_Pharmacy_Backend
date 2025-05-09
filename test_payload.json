@@ -1,0 +1,14 @@
+{
+  "pharmacy_id": 3,
+  "doctor_id": 2,
+  "patient_id": 1,
+  "medications": [
+    {
+      "medication_id": 1,
+      "dosage": 20,
+      "instructions": "once per day",
+      "taken_date": "2025-01-01T00:00:01",
+      "duration": 5
+    }
+  ]
+}
