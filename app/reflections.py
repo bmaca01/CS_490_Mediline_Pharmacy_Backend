@@ -5,7 +5,7 @@ from app.config import settings, DevelopmentConfig, ProductionConfig
 
 if isinstance(settings, ProductionConfig):
     engine = create_engine(
-        'mysql+pymysql',
+        'mysql+pymysql://',
         creator=ProductionConfig.getconn
     )
 else:
