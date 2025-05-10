@@ -1,4 +1,13 @@
-from app.extensions import metadata_obj
+from sqlalchemy import MetaData, create_engine
+from sqlalchemy.orm import sessionmaker, scoped_session
+from sqlalchemy.orm import Session as SessionType
+from app.config import settings
+engine = create_engine(settings.DATABASE_URL)
+metadata_obj = MetaData()
+metadata_obj.reflect(bind=engine)
+
+session_factory = sessionmaker(bind=engine)
+Session: SessionType = scoped_session(session_factory)
 
 PrescriptionTable = metadata_obj.tables['prescription']
 PrescriptionMedicationTable = metadata_obj.tables['prescription_medication']

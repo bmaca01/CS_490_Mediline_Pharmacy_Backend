@@ -1,8 +1,7 @@
 from copy import deepcopy
 from datetime import datetime
 from sqlalchemy import select, insert, desc
-from app.extensions import engine
-from app.reflections import PrescriptionTable, PrescriptionMedicationTable, \
+from app.reflections import engine, PrescriptionTable, PrescriptionMedicationTable, \
     MedicationTable, PharmacyTable, InventoryTable
 
 def add_rx(rx: dict):
