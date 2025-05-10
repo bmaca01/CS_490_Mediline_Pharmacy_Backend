@@ -1,11 +1,18 @@
 from sqlalchemy import MetaData, create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy.orm import Session as SessionType
-from app.config import settings
-engine = create_engine(settings.DATABASE_URL)
+from app.config import settings, DevelopmentConfig, ProductionConfig
+
+if isinstance(settings, ProductionConfig):
+    engine = create_engine(
+        'mysql+pymysql',
+        creator=ProductionConfig.getconn
+    )
+else:
+    engine = create_engine(settings.DATABASE_URL)
+
 metadata_obj = MetaData()
 metadata_obj.reflect(bind=engine)
-
 session_factory = sessionmaker(bind=engine)
 Session: SessionType = scoped_session(session_factory)
 

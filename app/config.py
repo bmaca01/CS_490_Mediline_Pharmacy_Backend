@@ -1,6 +1,8 @@
 import os
 import pathlib
 from functools import lru_cache
+from google.cloud.sql.connector import Connector, IPTypes
+from pymysql.connections import Connection
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -20,7 +22,20 @@ class DevelopmentConfig(BaseConfig):
     DATABASE_URL: str = f'mysql+pymysql://{BaseConfig.DB_USER}:{BaseConfig.DB_PASS}@{BaseConfig.DB_HOST}:{BaseConfig.DB_PORT}/{BaseConfig.DB_NAME}'
 
 class ProductionConfig(BaseConfig):
-    pass
+    CONNECTOR = Connector(
+        ip_type=IPTypes.PRIVATE if os.environ.get('PRIVATE_IP') else IPTypes.PUBLIC,
+        refresh_strategy='LAZY'
+    )
+    @staticmethod
+    def getconn() -> Connection:
+        conn: Connection = ProductionConfig.CONNECTOR.connect(
+            os.environ.get('INSTANCE_CONNECTION_NAME'),
+            'pymysql',
+            user=os.environ.get('DB_IAM_USER'),
+            enable_iam_auth=True,
+            db=BaseConfig.DB_NAME
+        )
+        return conn
 
 class TestingConfig(BaseConfig):
     pass
