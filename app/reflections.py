@@ -28,3 +28,5 @@ UserTable = metadata_obj.tables['user']
 PatientTable = metadata_obj.tables['patient']
 DoctorTable = metadata_obj.tables['doctor']
 PharmacyTable = metadata_obj.tables['pharmacy']
+
+NotificationTable = metadata_obj.tables['notification']
